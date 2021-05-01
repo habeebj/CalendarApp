@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\CalendarApp.Infrastructure\CalendarApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\CalendarApp.Data\CalendarApp.Data.csproj" />
+    <ProjectReference Include="..\CalendarApp.Domain\CalendarApp.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>
