@@ -19,14 +19,13 @@ namespace CalendarApp.Applications.Meetings
             _tenantUserProvider = tenantUserProvider;
         }
 
-        public async Task<MeetingDTO> AddASync(string eventName, string agenda, DateTime start, DateTime end, IEnumerable<string> participantsEmail, string locationId)
+        public async Task<MeetingDTO> AddASync(string eventName, string agenda, DateTime start, DateTime end, IEnumerable<string> participantsEmail, string locationId = null)
         {
             var owner = await _unitOfWork.ApplicationUser.GetByIdAsync(_tenantUserProvider.GetCurrentUserId());
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
 
             // convert start and end date to UTC
-            var a = DateTime.UtcNow;
             start = start.ConvertTimezoneToUTC(owner.Timezone);
             end = end.ConvertTimezoneToUTC(owner.Timezone);
 
@@ -55,7 +54,6 @@ namespace CalendarApp.Applications.Meetings
         public async Task<IEnumerable<MeetingDTO>> GetAllASync()
         {
             var meetings = await _unitOfWork.Meeting.GetAllMeetingsAsync();
-            
             return _modelFactory.Create(meetings);
         }
 

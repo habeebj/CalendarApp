@@ -14,7 +14,9 @@ namespace CalendarApp.Data.Repositories
 
         public async Task<ApplicationUser> FindByEmailAsync(string email)
         {
-            return await _context.Set<ApplicationUser>().FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.Set<ApplicationUser>()
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
         }
     }
 }

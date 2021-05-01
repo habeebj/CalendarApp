@@ -28,7 +28,7 @@ namespace CalendarApp.Data.Repositories
             .Where(m =>
                 m.Owner.Email == userEmail ||
                 m.Participants.Select(p => p.Email).Contains(userEmail) ||
-                (string.IsNullOrEmpty(m.LocationId) && m.Location.Manager.Email == userEmail)
+                (!string.IsNullOrEmpty(m.LocationId) && m.Location.Manager.Email == userEmail)
             )
             .AsNoTracking()
             .ToListAsync();
