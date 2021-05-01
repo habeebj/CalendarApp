@@ -8,7 +8,7 @@ namespace CalendarApp.Data.Repositories
 {
     public class ApplicantionUserRepository : Repository<ApplicationUser>, IApplicantionUserRepository
     {
-        public ApplicantionUserRepository(DbContext context) : base(context)
+        public ApplicantionUserRepository(ApplicationDbContext context) : base(context)
         {
         }
 

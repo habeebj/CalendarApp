@@ -6,6 +6,7 @@ using CalendarApp.Applications.DTOs;
 using CalendarApp.Applications.ModelFactory;
 using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
+using CalendarApp.Utilities;
 using Microsoft.Extensions.Logging;
 
 namespace CalendarApp.Applications.Meetings
@@ -24,10 +25,10 @@ namespace CalendarApp.Applications.Meetings
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
 
-            // change start and end date to UTC
-            start = DateTime.Parse($"{start.Year}-{start.Month}-{start.Date}T");
-            var ownersTimezone = TimeZoneInfo.FindSystemTimeZoneById(owner.Timezone);
-            var utcOffset = ownersTimezone.GetUtcOffset(start);
+            // convert start and end date to UTC
+            var a = DateTime.UtcNow;
+            start = start.ConvertTimezoneToUTC(owner.Timezone);
+            end = end.ConvertTimezoneToUTC(owner.Timezone);
 
             Location location = null;
             if (!string.IsNullOrEmpty(locationId))
@@ -53,7 +54,8 @@ namespace CalendarApp.Applications.Meetings
 
         public async Task<IEnumerable<MeetingDTO>> GetAllASync()
         {
-            var meetings = await _unitOfWork.Meeting.GetAllAsync();
+            var meetings = await _unitOfWork.Meeting.GetAllMeetingsAsync();
+            
             return _modelFactory.Create(meetings);
         }
 
@@ -91,7 +93,7 @@ namespace CalendarApp.Applications.Meetings
             var meeting = await _unitOfWork.Meeting.GetByIdAsync(id);
             if (meeting == null)
                 throw new ArgumentNullException(nameof(meeting));
-            
+
             _unitOfWork.Meeting.Remove(meeting);
             await _unitOfWork.CompleteAsync();
         }

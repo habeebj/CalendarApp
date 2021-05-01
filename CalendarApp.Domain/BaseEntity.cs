@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 
 namespace CalendarApp.Domain
@@ -8,6 +9,7 @@ namespace CalendarApp.Domain
         {
             // CreatedDate = DateTime.Now;
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public T Id { get; set; }
         public Guid TenantId { get; set; }
         // public DateTime CreatedDate { get; set; }

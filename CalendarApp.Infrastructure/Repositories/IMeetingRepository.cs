@@ -7,7 +7,7 @@ namespace CalendarApp.Infrastructure.Repositories
 {
     public interface IMeetingRepository : IRepository<Meeting>
     {
-        // Task<IEnumerable<Meeting>> GetAllMeetingsAsync(string userEmail);
+        Task<IEnumerable<Meeting>> GetAllMeetingsAsync();
         // Task<IEnumerable<Meeting>> GetMeetingsByDateAsync(string userEmail, DateTime date);
     }
 }

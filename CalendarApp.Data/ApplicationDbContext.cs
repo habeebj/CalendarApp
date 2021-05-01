@@ -25,11 +25,21 @@ namespace CalendarApp.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Location>().HasQueryFilter(l => l.TenantId == _tenantProvider.GetCompanyId());
-            var userEmail = _tenantProvider.GetCurrentUserEmail();
+            builder.Entity<ApplicationUser>().HasQueryFilter(u => u.CompanyId == _tenantProvider.GetCompanyId());
+
             builder.Entity<Meeting>().HasQueryFilter(
                 m => m.TenantId == _tenantProvider.GetCompanyId()
-                && (m.Participants.Select(p => p.Email).Contains(userEmail) || m.Owner.Email == userEmail || isUserLocationManager(m.Location, userEmail))
+                //&& (m.Participants.Select(p => p.Email).Contains(_tenantProvider.GetCurrentUserEmail()) || m.Owner.Email == _tenantProvider.GetCurrentUserEmail() || isUserLocationManager(m.Location, _tenantProvider.GetCurrentUserEmail()))
             );
+
+            builder.Entity<Meeting>()
+                .HasOne(x => x.Owner)
+                .WithOne()
+                .HasForeignKey<Meeting>(x => x.OwnerId);
+
+            builder.Entity<Meeting>()
+                .HasMany(x => x.Participants)
+                .WithMany(x => x.Meetings);
         }
 
         private bool isUserLocationManager(Location location, string email)

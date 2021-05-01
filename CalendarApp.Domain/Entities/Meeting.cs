@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CalendarApp.Utilities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CalendarApp.Domain.Entities
 {
@@ -16,7 +17,6 @@ namespace CalendarApp.Domain.Entities
         public string Agenda { get; private set; }
         public DateTime Start { get; private set; }
         public DateTime End { get; private set; }
-        public ICollection<ApplicationUser> Participants { get; private set; }
 
         [Required]
         public string OwnerId { get; private set; }
@@ -24,6 +24,8 @@ namespace CalendarApp.Domain.Entities
 
         public string LocationId { get; private set; }
         public Location Location { get; private set; }
+        
+        public ICollection<ApplicationUser> Participants { get; private set; }
 
         /// <summary>
         /// Documentation
@@ -64,7 +66,8 @@ namespace CalendarApp.Domain.Entities
                 Start = start.ConvertTimezoneToUTC(owner.Timezone),
                 End = end.ConvertTimezoneToUTC(owner.Timezone),
                 Participants = participants,
-                Location = location
+                Location = location,
+                TenantId = owner.CompanyId
             };
         }
 

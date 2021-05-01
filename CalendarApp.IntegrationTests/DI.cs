@@ -8,6 +8,7 @@ using CalendarApp.Data.Repositories;
 using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
 using CalendarApp.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,8 +25,7 @@ namespace CalendarApp.IntegrationTests
                 //     .AddJsonFile("appsettings.json", optional: false);
                 // var config = configBuilder.Build();
 
-                var _serviceCollection = new ServiceCollection()
-                    .AddDbContext<ApplicationDbContext>()
+                var serviceCollection = new ServiceCollection()
                     .AddScoped<IApplicantionUserRepository, ApplicantionUserRepository>()
                     .AddScoped<ILocationRepository, LocationRepository>()
                     .AddScoped<IMeetingRepository, MeetingRepository>()
@@ -37,13 +37,18 @@ namespace CalendarApp.IntegrationTests
                     .AddScoped<IModelFactory, ModelFactory>()
                     .AddLogging();
 
-                _serviceCollection.AddIdentityCore<ApplicationUser>()
+                serviceCollection.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlite("DataSource=app.db;Cache=Shared")
+                );
+
+                serviceCollection
+                    .AddIdentityCore<ApplicationUser>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-                var services = _serviceCollection.BuildServiceProvider();
+                var services = serviceCollection.BuildServiceProvider();
                 var dbContext = services.GetService<ApplicationDbContext>();
                 dbContext.Database.EnsureDeleted();
-
+                dbContext.Database.EnsureCreated();
                 return services;
             }
         }

@@ -1,23 +1,26 @@
 using System;
+using CalendarApp.Applications.DTOs;
+using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
 
 namespace CalendarApp.IntegrationTests
 {
     public class FakeTenantUserProvider : ITenantUserProvider
     {
+        public static ApplicationUserDTO User;
         public Guid GetCompanyId()
         {
-            throw new NotImplementedException();
+            return Guid.Parse(User.CompanyId);
         }
 
         public string GetCurrentUserEmail()
         {
-            throw new NotImplementedException();
+            return User == null ? "" : User.Email;
         }
 
         public string GetCurrentUserId()
         {
-            throw new NotImplementedException();
+            return User.Id;
         }
     }
 }

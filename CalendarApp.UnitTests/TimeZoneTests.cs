@@ -73,7 +73,7 @@ namespace CalendarApp.UnitTests
             var utcDateTime = date.ConvertTimeZoneIdToUTC("America/St_Johns");
             Assert.AreEqual(DateTime.Parse("2021-05-01T09:00:00"), utcDateTime);
         }
-        
+
         [Test]
         public void ConvertToUtcDateFromTomeZoneId_PositiveTimezoneWithMunites_ShouldBeSuccessful()
         {
@@ -90,7 +90,7 @@ namespace CalendarApp.UnitTests
             var dateTimeInTimezone = dateTime.ConvertUtcToTimezoneDateTime("+02:00");
             Assert.AreEqual(DateTime.Parse("2021-05-01T12:59:00"), dateTimeInTimezone);
         }
-        
+
         [Test]
         public void ConvertUtcToTimeZone_NegativeTimezone_ShouldBeSuccessful()
         {
@@ -105,6 +105,14 @@ namespace CalendarApp.UnitTests
             var dateTime = DateTime.Parse("2021-05-01T06:00:00");
             var dateTimeInTimezone = dateTime.ConvertUtcToTimezoneDateTime("+05:45");
             Assert.AreEqual(DateTime.Parse("2021-05-01T11:45:00"), dateTimeInTimezone);
+        }
+        [Test]
+        public void sample()
+        {
+            // Warsaw timezone = GMT+02:00
+            var date = DateTime.Parse("2021-05-01T18:53:00");
+            var utcDateTime = date.ConvertTimezoneToUTC("+02:00");
+            Assert.AreEqual(DateTime.Parse("2021-05-01T16:53:00"), utcDateTime);
         }
     }
 }

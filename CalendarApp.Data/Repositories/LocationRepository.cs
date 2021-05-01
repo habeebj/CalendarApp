@@ -6,7 +6,7 @@ namespace CalendarApp.Data.Repositories
 {
     public class LocationRepository : Repository<Location>, ILocationRepository
     {
-        public LocationRepository(DbContext context) : base(context)
+        public LocationRepository(ApplicationDbContext context) : base(context)
         {
         }
     }

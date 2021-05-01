@@ -36,8 +36,10 @@ namespace CalendarApp.Utilities
 
             var hour = int.Parse(timeOffset[0]);
             var munites = int.Parse(timeOffset[1]);
-
-            return d.Add(new TimeSpan(-1 * hour, -1 * munites, 0));
+            
+            d = d.Add(new TimeSpan(-1 * hour, -1 * munites, 0));
+            
+            return DateTime.SpecifyKind(d, DateTimeKind.Utc);
         }
 
         /// <summary>

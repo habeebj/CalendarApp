@@ -1,13 +1,20 @@
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace CalendarApp.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+            Meetings = new List<Meeting>();
+        }
         public Guid CompanyId { get; private set; }
         public string Timezone { get; private set; }
+
+        public ICollection<Meeting> Meetings { get; set; }
 
         public static ApplicationUser Create(string email, Guid companyId, string timezone = "+02:00")
         {

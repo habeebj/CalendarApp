@@ -10,5 +10,7 @@ namespace CalendarApp.Applications.ModelFactory
         IEnumerable<MeetingDTO> Create(IEnumerable<Meeting> meetings);
         LocationDTO Create(Location location);
         IEnumerable<LocationDTO> Create(IEnumerable<Location> locations);
+        ApplicationUserDTO Create(ApplicationUser applicationUser);
+        IEnumerable<ApplicationUserDTO> Create(IEnumerable<ApplicationUser> applicationUsers);
     }
 }
