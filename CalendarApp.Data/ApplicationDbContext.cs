@@ -50,6 +50,7 @@ namespace CalendarApp.Data
         }
 
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
     }
