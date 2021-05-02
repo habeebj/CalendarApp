@@ -12,4 +12,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CalendarApp.Applications\CalendarApp.Applications.csproj" />
+    <ProjectReference Include="..\CalendarApp.Data\CalendarApp.Data.csproj" />
+    <ProjectReference Include="..\CalendarApp.Domain\CalendarApp.Domain.csproj" />
+    <ProjectReference Include="..\CalendarApp.Infrastructure\CalendarApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\CalendarApp.Utilities\CalendarApp.Utilities.csproj" />
+  </ItemGroup>
+
 </Project>
