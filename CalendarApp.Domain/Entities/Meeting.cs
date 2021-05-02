@@ -55,7 +55,7 @@ namespace CalendarApp.Domain.Entities
 
             // meetings shouldn’t be longer than 8 hours
             if (end - start > new TimeSpan(8, 0, 0))
-                throw new Exception("Meetings shouldn’t be longer than 8 hours");
+                throw new ArgumentException("Meetings shouldn’t be longer than 8 hours");
 
             return new Meeting
             {

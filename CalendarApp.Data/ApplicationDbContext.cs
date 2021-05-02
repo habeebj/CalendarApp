@@ -28,8 +28,12 @@ namespace CalendarApp.Data
             // builder.Entity<ApplicationUser>().HasQueryFilter(u => u.CompanyId == _tenantProvider.GetCompanyId());
 
             builder.Entity<Meeting>().HasQueryFilter(
-                m => m.TenantId == _tenantProvider.GetCompanyId()
-                //&& (m.Participants.Select(p => p.Email).Contains(_tenantProvider.GetCurrentUserEmail()) || m.Owner.Email == _tenantProvider.GetCurrentUserEmail() || isUserLocationManager(m.Location, _tenantProvider.GetCurrentUserEmail()))
+                m => m.TenantId == _tenantProvider.GetCompanyId() &&
+                (
+                    m.Owner.Email == _tenantProvider.GetCurrentUserEmail() ||
+                    (m.Location.Manager.Email == _tenantProvider.GetCurrentUserEmail()) ||
+                    m.Participants.Select(p => p.Email).Contains(_tenantProvider.GetCurrentUserEmail())
+                )
             );
 
             builder.Entity<Meeting>()
@@ -41,14 +45,6 @@ namespace CalendarApp.Data
                 .HasMany(x => x.Participants)
                 .WithMany(x => x.Meetings);
         }
-
-        private bool isUserLocationManager(Location location, string email)
-        {
-            if (location != null)
-                return location.Manager.Email == email;
-            return false;
-        }
-
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Location> Locations { get; set; }
