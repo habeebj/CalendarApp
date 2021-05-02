@@ -15,8 +15,8 @@ namespace CalendarApp.Domain.Entities
         }
         public string Name { get; private set; }
         public string Agenda { get; private set; }
-        public DateTime Start { get; private set; }
-        public DateTime End { get; private set; }
+        public DateTimeOffset Start { get; private set; }
+        public DateTimeOffset End { get; private set; }
 
         [Required]
         public string OwnerId { get; private set; }
@@ -38,7 +38,7 @@ namespace CalendarApp.Domain.Entities
         /// <param name="participants"></param>
         /// <param name="location"></param>
         /// <returns></returns>
-        public static Meeting Create(ApplicationUser owner, string eventName, string agenda, DateTime start, DateTime end, ICollection<ApplicationUser> participants, Location location = null)
+        public static Meeting Create(ApplicationUser owner, string eventName, string agenda, DateTimeOffset start, DateTimeOffset end, ICollection<ApplicationUser> participants, Location location = null)
         {
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));

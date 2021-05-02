@@ -10,7 +10,8 @@ namespace CalendarApp.Utilities
         /// </summary>
         /// <param name="timezoneId">Timezone ID eg: Europe/Warsaw</param>
         /// <returns>DateTime in UTC</returns>
-        public static DateTime ConvertTimeZoneIdToUTC(this DateTime d, string timezoneId)
+        [Obsolete]
+        public static DateTimeOffset ConvertTimeZoneIdToUTC(this DateTimeOffset d, string timezoneId)
         {
             var timezoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timezoneId);
             var offset = timezoneInfo.GetUtcOffset(DateTime.UtcNow);
@@ -18,7 +19,7 @@ namespace CalendarApp.Utilities
             var hours = $"{sign}{offset.Hours}";
             var munites = offset.Minutes < 0 ? offset.Minutes * -1 : offset.Minutes;
             var newFormat = $"{d.ToString("yyyy-MM-ddTHH:mm:ss")}{hours}:{munites}";
-            return DateTime.Parse(newFormat).ToUniversalTime();
+            return DateTimeOffset.Parse(newFormat).ToUniversalTime();
         }
 
         /// <summary>
@@ -26,20 +27,11 @@ namespace CalendarApp.Utilities
         /// </summary>
         /// <param name="timezone">Timezone eg: +02:00</param>
         /// <returns>DateTime in UTC</returns>
-        public static DateTime ConvertTimezoneToUTC(this DateTime d, string timezone)
+        public static DateTimeOffset ConvertTimezoneToUTC(this DateTimeOffset d, string timezone)
         {
-            // expected timezone value = +hh:m
-            // split timezone by ':'
-            var timeOffset = timezone.Split(':');
-            if (timeOffset.Length != 2)
-                throw new ArgumentException(nameof(timezone));
-
-            var hour = int.Parse(timeOffset[0]);
-            var munites = int.Parse(timeOffset[1]);
-            
-            d = d.Add(new TimeSpan(-1 * hour, -1 * munites, 0));
-            
-            return DateTime.SpecifyKind(d, DateTimeKind.Utc);
+            var newFormat = $"{d.ToString("yyyy-MM-ddTHH:mm:ss")}{timezone}";
+            d = DateTimeOffset.Parse(newFormat);
+            return d.UtcDateTime;
         }
 
         /// <summary>
@@ -47,15 +39,9 @@ namespace CalendarApp.Utilities
         /// </summary>
         /// <param name="timezone">Timezone eg: -7:00</param>
         /// <returns>DateTime</returns>
-        public static DateTime ConvertUtcToTimezoneDateTime(this DateTime d, string timezone)
+        public static DateTimeOffset ConvertUtcToTimezoneDateTime(this DateTimeOffset d, string timezone)
         {
-            var timeOffset = timezone.Split(':');
-            if (timeOffset.Length != 2)
-                throw new ArgumentException(nameof(timezone));
-
-            var hour = int.Parse(timeOffset[0]);
-            var munites = int.Parse(timeOffset[1]);
-            return d.Subtract(new TimeSpan(-1 * hour, -1 * munites, 0));
+            return d.ToOffset(TimeSpan.Parse(timezone.Replace('+', ' ')));
         }
     }
 }

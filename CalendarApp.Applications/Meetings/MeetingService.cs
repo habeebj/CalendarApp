@@ -19,15 +19,11 @@ namespace CalendarApp.Applications.Meetings
             _tenantUserProvider = tenantUserProvider;
         }
 
-        public async Task<MeetingDTO> AddASync(string eventName, string agenda, DateTime start, DateTime end, IEnumerable<string> participantsEmail, string locationId = null)
+        public async Task<MeetingDTO> AddASync(string eventName, string agenda, DateTimeOffset start, DateTimeOffset end, IEnumerable<string> participantsEmail, string locationId = null)
         {
             var owner = await _unitOfWork.ApplicationUser.GetByIdAsync(_tenantUserProvider.GetCurrentUserId());
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
-
-            // convert start and end date to UTC
-            start = start.ConvertTimezoneToUTC(owner.Timezone);
-            end = end.ConvertTimezoneToUTC(owner.Timezone);
 
             Location location = null;
             if (!string.IsNullOrEmpty(locationId))

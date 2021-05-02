@@ -30,9 +30,10 @@ namespace CalendarApp.IntegrationTests
             company1 = Guid.NewGuid();
             company2 = Guid.NewGuid();
 
+            // default timezone +02:00
             user1c1 = _applicationUserService.CreateAsync("user1@company1.com", company1).GetAwaiter().GetResult();
-            user2c1 = _applicationUserService.CreateAsync("user2@company1.com", company1).GetAwaiter().GetResult();
-            user3c1 = _applicationUserService.CreateAsync("user3@company1.com", company1).GetAwaiter().GetResult();
+            user2c1 = _applicationUserService.CreateAsync("user2@company1.com", company1, "+01:00").GetAwaiter().GetResult();
+            user3c1 = _applicationUserService.CreateAsync("user3@company1.com", company1, "+02:00").GetAwaiter().GetResult();
             user4c1 = _applicationUserService.CreateAsync("user4@company1.com", company1).GetAwaiter().GetResult();
 
             user1c2 = _applicationUserService.CreateAsync("user1@company2.com", company2).GetAwaiter().GetResult();
@@ -44,9 +45,11 @@ namespace CalendarApp.IntegrationTests
 
             FakeTenantUserProvider.User = user3c1; // meeting owner
             // Meeting created by a user in company1 with location and user2 is participant
+            var date = DateTime.Parse("2021-05-01T07:17:00");
+
             var meetingByUserInCompany1 = _meetingService.AddASync(
                 "Graduation Meeting", "agenda",
-                DateTime.Now, DateTime.Now.AddHours(4),
+                date, date.AddHours(4),
                 new List<string> { user2c1.Email },
                 location.Id
             )
@@ -56,7 +59,7 @@ namespace CalendarApp.IntegrationTests
             FakeTenantUserProvider.User = user1c2;
             var meetingByUserInCompany2 = _meetingService.AddASync(
                 "Urgent Meeting", "agenda",
-                DateTime.Now, DateTime.Now.AddHours(4),
+                date, date.AddHours(4),
                 new List<string> { user2c2.Email }
             )
             .GetAwaiter().GetResult();

@@ -7,7 +7,7 @@ namespace CalendarApp.Applications.Meetings
 {
     public interface IMeetingService
     {
-        Task<MeetingDTO> AddASync(string eventName, string agenda, DateTime start, DateTime end, IEnumerable<string> participantsEmail, string locationId = null);
+        Task<MeetingDTO> AddASync(string eventName, string agenda, DateTimeOffset start, DateTimeOffset end, IEnumerable<string> participantsEmail, string locationId = null);
         Task<IEnumerable<MeetingDTO>> GetAllASync();
         // Task<IEnumerable<MeetingDTO>> GetByIdASync(string id);
         Task<IEnumerable<MeetingDTO>> GetMeetingsByLocationAsync(string locationId);

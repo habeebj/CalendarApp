@@ -17,6 +17,9 @@ namespace CalendarApp.UnitTests
         [Test]
         public void Test1()
         {
+            var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
+            Console.WriteLine($"{offset}");
+            
             // var date = DateTime.Parse("2021-04-30T07:48:00");
             // Console.WriteLine(date.FromTimezoneToUniversalTime("+02:00"));
             // Console.WriteLine(date.FromTimezoneToUniversalTime("-07:00"));
@@ -62,8 +65,8 @@ namespace CalendarApp.UnitTests
             // Console.WriteLine(timespan);
 
 
-            var timezones = TimeZoneInfo.GetSystemTimeZones().Select(t => new { t.Id, t.DisplayName, t.DaylightName, t.StandardName });
-            Console.WriteLine(string.Join(",\n", timezones));
+            // var timezones = TimeZoneInfo.GetSystemTimeZones().Select(t => new { t.Id, t.DisplayName, t.DaylightName, t.StandardName });
+            // Console.WriteLine(string.Join(",\n", timezones));
 
 
             // Console.WriteLine(lagosDate.ToLongTimeString());
