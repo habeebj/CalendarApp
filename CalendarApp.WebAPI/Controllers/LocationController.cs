@@ -65,11 +65,13 @@ namespace CalendarApp.WebAPI.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            throw new NotImplementedException();
         }
     }
 }
