@@ -8,6 +8,12 @@ namespace CalendarApp.Applications.Locations
     {
         Task<LocationDTO> AddAsync(string name, string address);
         Task<IEnumerable<LocationDTO>> GetAllAsync();
+        /// <summary>
+        /// Get location by ID
+        /// </summary>
+        /// <param name="id">Location ID</param>
+        /// <returns>LocationDTO</returns>
+        /// <exception cref="CalendarApp.Applications.Exceptions.EntityNotFoundException">Thrown when no location is found</exception>
         Task<LocationDTO> GetByIdAsync(string id);
         Task DeleteAsync(string id);
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarApp.Applications.DTOs;
+using CalendarApp.Applications.Exceptions;
 using CalendarApp.Applications.Locations;
 using CalendarApp.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -31,9 +32,20 @@ namespace CalendarApp.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<LocationDTO>> GetAsync(string id)
         {
-            // TODO: add try catch and exceptions
-            var location = await _locationService.GetByIdAsync(id);
-            return Ok(location);
+
+            try
+            {
+                var location = await _locationService.GetByIdAsync(id);
+                return Ok(location);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
