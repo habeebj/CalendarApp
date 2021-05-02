@@ -33,7 +33,7 @@ namespace CalendarApp.Applications.Meetings
             foreach (var email in participantsEmail)
             {
                 var participant = await _unitOfWork.ApplicationUser.FindByEmailAsync(email);
-                if (participant == null)
+                if (participant == null || participant.CompanyId != owner.CompanyId)
                     throw new ArgumentException($"Participant with {email} does not exist", paramName: nameof(participant));
 
                 participants.Add(participant);

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -57,17 +58,6 @@ namespace CalendarApp.WebAPI
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            services
-                .AddIdentityCore<ApplicationUser>(options =>
-                {
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequiredLength = 4;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
             var jwtOptions = Configuration.GetSection(JWTOptions.Key).Get<JWTOptions>();
 
             services
@@ -83,6 +73,7 @@ namespace CalendarApp.WebAPI
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        ValidateIssuerSigningKey = true,
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidAudience = jwtOptions.ValidAudience,
@@ -90,6 +81,16 @@ namespace CalendarApp.WebAPI
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret))
                     };
                 });
+            
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.Utilities", "Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.IntegrationTests", "CalendarApp.IntegrationTests\CalendarApp.IntegrationTests.csproj", "{A812F540-C4F5-4D36-AF6B-ECCF0234FCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.WebAPI", "CalendarApp.WebAPI\CalendarApp.WebAPI.csproj", "{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.WebAPI", "CalendarApp.WebAPI\CalendarApp.WebAPI.csproj", "{448E51D8-A47C-48CB-A974-98A111840B05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,17 +116,17 @@ Global
 		{A812F540-C4F5-4D36-AF6B-ECCF0234FCD9}.Release|x64.Build.0 = Release|Any CPU
 		{A812F540-C4F5-4D36-AF6B-ECCF0234FCD9}.Release|x86.ActiveCfg = Release|Any CPU
 		{A812F540-C4F5-4D36-AF6B-ECCF0234FCD9}.Release|x86.Build.0 = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|x64.Build.0 = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Debug|x86.Build.0 = Debug|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|x64.ActiveCfg = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|x64.Build.0 = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|x86.ActiveCfg = Release|Any CPU
-		{EDF7B41C-58E2-479C-BFFC-92FF7E8FEC3D}.Release|x86.Build.0 = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|x64.Build.0 = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Debug|x86.Build.0 = Debug|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|x64.ActiveCfg = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|x64.Build.0 = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|x86.ActiveCfg = Release|Any CPU
+		{448E51D8-A47C-48CB-A974-98A111840B05}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

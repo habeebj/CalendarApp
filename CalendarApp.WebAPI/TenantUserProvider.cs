@@ -9,6 +9,9 @@ namespace CalendarApp.WebAPI
     public class TenantUserProvider : ITenantUserProvider
     {
         private List<Claim> _claims = new List<Claim>();
+
+        public const string TimezoneClaim = "timezone";
+        public const string CompanyIdClaim = "comopanyId";
         public TenantUserProvider()
         {
             if (ClaimsPrincipal.Current != null)

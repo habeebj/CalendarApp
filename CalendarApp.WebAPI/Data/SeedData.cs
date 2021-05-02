@@ -17,6 +17,10 @@ namespace CalendarApp.WebAPI.Data
         {
             using (var usermanager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>())
             {
+                var user = await usermanager.FindByNameAsync("user1@abc.com");
+                if (user != null)
+                    return;
+
                 var abcCompany = Guid.NewGuid();
                 var user1c1 = ApplicationUser.Create("user1@abc.com", abcCompany);
                 var user2c1 = ApplicationUser.Create("user2@abc.com", abcCompany);

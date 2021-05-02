@@ -9,7 +9,7 @@ namespace CalendarApp.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly ITenantUserProvider _tenantProvider;
-        public ApplicationDbContext(DbContextOptions options, ITenantUserProvider tenantProvider) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ITenantUserProvider tenantProvider) : base(options)
         {
             _tenantProvider = tenantProvider;
             Database.EnsureCreated();
@@ -25,7 +25,7 @@ namespace CalendarApp.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Location>().HasQueryFilter(l => l.TenantId == _tenantProvider.GetCompanyId());
-            builder.Entity<ApplicationUser>().HasQueryFilter(u => u.CompanyId == _tenantProvider.GetCompanyId());
+            // builder.Entity<ApplicationUser>().HasQueryFilter(u => u.CompanyId == _tenantProvider.GetCompanyId());
 
             builder.Entity<Meeting>().HasQueryFilter(
                 m => m.TenantId == _tenantProvider.GetCompanyId()
