@@ -8,5 +8,6 @@ namespace CalendarApp.Infrastructure
         Guid GetCompanyId();
         string GetCurrentUserEmail();
         string GetCurrentUserId();
+        string GetCurrentUserTimezone();
     }
 }

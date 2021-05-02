@@ -22,5 +22,10 @@ namespace CalendarApp.IntegrationTests
         {
             return User.Id;
         }
+
+        public string GetCurrentUserTimezone()
+        {
+            return User.Timezone;
+        }
     }
 }

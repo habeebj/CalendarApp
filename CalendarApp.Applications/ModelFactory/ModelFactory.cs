@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using CalendarApp.Applications.DTOs;
 using CalendarApp.Domain.Entities;
+using CalendarApp.Infrastructure;
+using CalendarApp.Utilities;
 
 namespace CalendarApp.Applications.ModelFactory
 {
     public class ModelFactory : IModelFactory
     {
+        private readonly ITenantUserProvider _tenantUserProvider;
+        public ModelFactory(ITenantUserProvider tenantUserProvider)
+        {
+            _tenantUserProvider = tenantUserProvider;
+        }
         public MeetingDTO Create(Meeting meeting)
         {
             if (meeting == null)
@@ -17,8 +24,8 @@ namespace CalendarApp.Applications.ModelFactory
             {
                 Id = meeting.Id,
                 Name = meeting.Name,
-                Start = meeting.Start,
-                End = meeting.End,
+                Start = meeting.Start.ConvertUtcToTimezoneDateTime(_tenantUserProvider.GetCurrentUserTimezone()),
+                End = meeting.End.ConvertUtcToTimezoneDateTime(_tenantUserProvider.GetCurrentUserTimezone()),
                 Participants = meeting.Participants.Select(p => p.Email),
                 Owner = meeting.Owner == null ? null : meeting.Owner.Email,
                 Location = Create(meeting.Location)

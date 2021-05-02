@@ -72,6 +72,8 @@ namespace CalendarApp.IntegrationTests
             var meetings = _meetingService.GetAllASync().GetAwaiter().GetResult();
             Assert.AreEqual(1, meetings.Count());
             Assert.AreEqual("Graduation Meeting", meetings.FirstOrDefault().Name);
+            // check timezone offset
+            Assert.AreEqual(TimeSpan.Parse(user1c1.Timezone.Replace('+', ' ')), meetings.ToList()[0].Start.Offset);
         }
 
         [Test]
