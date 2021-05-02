@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CalendarApp.Applications.DTOs
 {
     public class LocationDTO

@@ -36,26 +36,41 @@ namespace CalendarApp.WebAPI.Controllers
                 if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
                 {
                     var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(TenantUserProvider.CompanyIdClaim, user.CompanyId.ToString()),
-                    new Claim(TenantUserProvider.TimezoneClaim, user.Timezone)
-                };
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id),
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(TenantUserProvider.CompanyIdClaim, user.CompanyId.ToString()),
+                        new Claim(TenantUserProvider.TimezoneClaim, user.Timezone)
+                    };
 
+                    var tokenHandler = new JwtSecurityTokenHandler();
                     var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret));
-                    var token = new JwtSecurityToken(
-                        issuer: _jwtOptions.ValidIssuer,
-                        audience: _jwtOptions.ValidAudience,
-                        expires: DateTime.Now.AddHours(3),
-                        claims: authClaims,
-                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(authClaims),
+                        Expires = DateTime.UtcNow.AddHours(3),
+                        Audience = _jwtOptions.ValidAudience,
+                        Issuer = _jwtOptions.ValidIssuer,
+                        SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256Signature)
+                    };
+
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    var jwtToken = tokenHandler.WriteToken(token);
+
+                    // var _token = new JwtSecurityToken(
+                    //     issuer: _jwtOptions.ValidIssuer,
+                    //     audience: _jwtOptions.ValidAudience,
+                    //     expires: DateTime.Now.AddHours(3),
+                    //     claims: authClaims,
+                    //     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                    // );
+
                     return Ok(new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        SecurityTokenNoExpirationException = token.ValidTo
+                        token = jwtToken,
+                        Experiation = token.ValidTo
                     });
 
                 }

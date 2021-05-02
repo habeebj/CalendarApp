@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarApp.Applications.DTOs;
+using CalendarApp.Applications.Exceptions;
 using CalendarApp.Applications.ModelFactory;
 using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
@@ -41,7 +42,7 @@ namespace CalendarApp.Applications.Locations
         {
             var location = await _unitOfWork.Location.GetByIdAsync(id);
             if (location == null)
-                throw new ArgumentNullException(nameof(location));
+                throw new EntityNotFoundException(nameof(location));
 
             return _modelFactory.Create(location);
         }

@@ -3,47 +3,33 @@ using System.Security.Claims;
 using System;
 using CalendarApp.Infrastructure;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace CalendarApp.WebAPI
 {
     public class TenantUserProvider : ITenantUserProvider
     {
-        private List<Claim> _claims = new List<Claim>();
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public const string TimezoneClaim = "timezone";
         public const string CompanyIdClaim = "comopanyId";
-        public TenantUserProvider()
+
+        public TenantUserProvider(IHttpContextAccessor httpContextAccessor)
         {
-            if (ClaimsPrincipal.Current != null)
-                _claims = ClaimsPrincipal.Current.Identities.First().Claims.ToList();
+            _httpContextAccessor = httpContextAccessor;
         }
         public Guid GetCompanyId()
         {
-            var companyId = _claims?.FirstOrDefault(c => c.Type.Equals("", StringComparison.OrdinalIgnoreCase))?.Value;
-            try
-            {
-                return Guid.Parse(companyId);
-            }
-            catch
-            {
-                return new Guid();
-            }
+            Guid result;
+            var companyId = _httpContextAccessor.HttpContext.User.FindFirst(CompanyIdClaim).Value;
+            Guid.TryParse(companyId, out result);
+            return result;
         }
 
-        public string GetCurrentUserEmail()
-        {
-            return _claims?.FirstOrDefault(c => c.Type.Equals("", StringComparison.OrdinalIgnoreCase))?.Value;
-        }
+        public string GetCurrentUserEmail() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
 
-        public string GetCurrentUserId()
-        {
-            return _claims?.FirstOrDefault(c => c.Type.Equals("", StringComparison.OrdinalIgnoreCase))?.Value;
+        public string GetCurrentUserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        }
-
-        public string GetCurrentUserTimezone()
-        {
-            return _claims?.FirstOrDefault(c => c.Type.Equals("", StringComparison.OrdinalIgnoreCase))?.Value;
-        }
+        public string GetCurrentUserTimezone() => _httpContextAccessor.HttpContext.User.FindFirst(TimezoneClaim).Value;
     }
 }

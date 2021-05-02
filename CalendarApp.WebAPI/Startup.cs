@@ -83,7 +83,7 @@ namespace CalendarApp.WebAPI
                 });
             
             services
-                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                .AddIdentityCore<ApplicationUser>(options =>
                 {
                     options.Password.RequireLowercase = false;
                     options.Password.RequiredLength = 4;
@@ -118,6 +118,8 @@ namespace CalendarApp.WebAPI
                     }
                 });
             });
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
