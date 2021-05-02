@@ -24,6 +24,7 @@ namespace CalendarApp.Applications.ModelFactory
             {
                 Id = meeting.Id,
                 Name = meeting.Name,
+                Agenda = meeting.Agenda,
                 Start = meeting.Start.ConvertUtcToTimezoneDateTime(_tenantUserProvider.GetCurrentUserTimezone()),
                 End = meeting.End.ConvertUtcToTimezoneDateTime(_tenantUserProvider.GetCurrentUserTimezone()),
                 Participants = meeting.Participants.Select(p => p.Email),

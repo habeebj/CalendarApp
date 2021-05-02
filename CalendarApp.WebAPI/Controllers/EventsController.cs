@@ -1,3 +1,4 @@
+using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,16 +28,10 @@ namespace CalendarApp.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetAsync(DateTime? day = null, string location_id = null, string query = null)
         {
-            var meetings = await _meetingService.GetAllASync();
+            var meetings = await _meetingService.GetAllASync(day, location_id, query);
             return Ok(meetings);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<MeetingDTO>> GetByIdAsync(string Id)
-        {
-            return Ok();
         }
 
         [HttpPost]

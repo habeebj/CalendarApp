@@ -1,3 +1,4 @@
+using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +48,17 @@ namespace CalendarApp.Applications.Meetings
             return _modelFactory.Create(meeting);
         }
 
-        public async Task<IEnumerable<MeetingDTO>> GetAllASync()
+        public async Task<IEnumerable<MeetingDTO>> GetAllASync(DateTimeOffset? day = null, string locationId = null, string query = null)
         {
-            var meetings = await _unitOfWork.Meeting.GetAllMeetingsAsync();
+            var userTimezone = _tenantUserProvider.GetCurrentUserTimezone();
+
+            if (day.HasValue)
+                day = day.Value.ConvertTimezoneToUTC(userTimezone);
+
+            query = HttpUtility.UrlDecode(query);
+
+            var meetings = await _unitOfWork.Meeting.GetAllMeetingsAsync(day, locationId, query);
+
             return _modelFactory.Create(meetings);
         }
 
@@ -61,19 +70,21 @@ namespace CalendarApp.Applications.Meetings
             return _modelFactory.Create(meeting);
         }
 
-        public async Task<IEnumerable<MeetingDTO>> GetMeetingsByDateAsync(DateTime dateTime)
+        public async Task<IEnumerable<MeetingDTO>> GetMeetingsByDateAsync(DateTimeOffset dateTime)
         {
+            // convert date to utc
+            dateTime = dateTime.ConvertTimezoneToUTC(_tenantUserProvider.GetCurrentUserTimezone());
             var meetings = await _unitOfWork.Meeting.FindAsync(m => m.Start >= dateTime && m.End <= dateTime);
             return _modelFactory.Create(meetings);
         }
 
-        public async Task<IEnumerable<MeetingDTO>> GetMeetingsByLocationAsync(string locationId)
+        public async Task<IEnumerable<MeetingDTO>> GetMeetingsByLocationIdAsync(string locationId)
         {
             var meetings = await _unitOfWork.Meeting.FindAsync(m => m.LocationId == locationId);
             return _modelFactory.Create(meetings);
         }
 
-        public async Task<IEnumerable<MeetingDTO>> Search(string query)
+        public async Task<IEnumerable<MeetingDTO>> SearchAsync(string query)
         {
             var meetings = await _unitOfWork.Meeting.FindAsync(m =>
                 m.Name.ToLower().Contains(query.ToLower()) ||
