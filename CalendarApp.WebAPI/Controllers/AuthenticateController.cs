@@ -28,7 +28,7 @@ namespace CalendarApp.WebAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestModel loginModel)
         {
             if (ModelState.IsValid)
             {
@@ -67,12 +67,7 @@ namespace CalendarApp.WebAPI.Controllers
                     //     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     // );
 
-                    return Ok(new
-                    {
-                        token = jwtToken,
-                        Experiation = token.ValidTo
-                    });
-
+                    return Ok(new LoginResponseModel { Token = jwtToken });
                 }
             }
             return BadRequest(new { Message = "Invalid username or password", Type = "Error" });

@@ -31,13 +31,16 @@ namespace CalendarApp.Applications.Meetings
                 location = await _unitOfWork.Location.GetByIdAsync(locationId);
 
             var participants = new List<ApplicationUser>();
-            foreach (var email in participantsEmail)
+            if (participantsEmail != null)
             {
-                var participant = await _unitOfWork.ApplicationUser.FindByEmailAsync(email);
-                if (participant == null || participant.CompanyId != owner.CompanyId)
-                    throw new ArgumentException($"Participant with {email} does not exist", paramName: nameof(participant));
+                foreach (var email in participantsEmail)
+                {
+                    var participant = await _unitOfWork.ApplicationUser.FindByEmailAsync(email);
+                    if (participant == null || participant.CompanyId != owner.CompanyId)
+                        throw new ArgumentException($"Participant with {email} does not exist", paramName: nameof(participant));
 
-                participants.Add(participant);
+                    participants.Add(participant);
+                }
             }
 
             var meeting = Meeting.Create(owner, eventName, agenda, start, end, participants, location);
@@ -55,7 +58,8 @@ namespace CalendarApp.Applications.Meetings
             if (day.HasValue)
                 day = day.Value.ConvertTimezoneToUTC(userTimezone);
 
-            query = HttpUtility.UrlDecode(query);
+            if (!string.IsNullOrEmpty(query))
+                query = HttpUtility.UrlDecode(query.Trim());
 
             var meetings = await _unitOfWork.Meeting.GetAllMeetingsAsync(day, locationId, query);
 

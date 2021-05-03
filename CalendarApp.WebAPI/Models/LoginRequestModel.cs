@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CalendarApp.WebAPI.Models
 {
-    public class LoginModel
+    public class LoginRequestModel
     {
         [Required]
         public string Username { get; set; }
