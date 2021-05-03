@@ -14,7 +14,7 @@ using Xunit;
 
 namespace CalendarApp.Tests.IntegrationTests
 {
-        public class CalendarAppWebAPITests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class CalendarAppWebAPITests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
         HttpClient _client;
@@ -45,8 +45,7 @@ namespace CalendarApp.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             response = await _client.GetAsync("/api/location");
-            var stringContent = await response.Content.ReadAsStringAsync();
-            var locations = JsonConvert.DeserializeObject<IEnumerable<LocationDTO>>(stringContent);
+            var locations = await deserializeHttpResponseMessageAsync<IEnumerable<LocationDTO>>(response);
 
             Assert.NotEmpty(locations);
 
@@ -55,8 +54,7 @@ namespace CalendarApp.Tests.IntegrationTests
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tangoCompanyUser1Token);
 
             response = await _client.GetAsync("/api/location");
-            stringContent = await response.Content.ReadAsStringAsync();
-            locations = JsonConvert.DeserializeObject<IEnumerable<LocationDTO>>(stringContent);
+            locations = await deserializeHttpResponseMessageAsync<IEnumerable<LocationDTO>>(response);
 
             Assert.Empty(locations);
         }
@@ -99,8 +97,8 @@ namespace CalendarApp.Tests.IntegrationTests
                 // Participants = new List<string>{ users["user2@tango.com"], users["user3@tango.com"]}
             };
             var response = await _client.PostAsync("/api/Events", getStringContentFromObject(request));
-            var stringContent = await response.Content.ReadAsStringAsync();
-            var meeting = JsonConvert.DeserializeObject<MeetingDTO>(stringContent);
+            var meeting = await deserializeHttpResponseMessageAsync<MeetingDTO>(response);
+            
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.Equal(meeting.Owner, creatorEmail);
@@ -124,8 +122,7 @@ namespace CalendarApp.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             // get location ID
-            var stringContent = await response.Content.ReadAsStringAsync();
-            var location = JsonConvert.DeserializeObject<LocationDTO>(stringContent);
+            var location = await deserializeHttpResponseMessageAsync<LocationDTO>(response);
 
             Assert.NotNull(location.Id);
 
@@ -143,39 +140,34 @@ namespace CalendarApp.Tests.IntegrationTests
             };
             // Create meeting
             response = await _client.PostAsync("/api/Events", getStringContentFromObject(meetingRequest));
-            stringContent = await response.Content.ReadAsStringAsync();
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             // Get events as owner
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", users[ownerEmail]);
             // GET Events
             response = await _client.GetAsync("/api/Events");
-            stringContent = await response.Content.ReadAsStringAsync();
-            var meetings = JsonConvert.DeserializeObject<IEnumerable<MeetingDTO>>(stringContent);
+            var meetings = await deserializeHttpResponseMessageAsync<IEnumerable<MeetingDTO>>(response);
 
             Assert.NotEmpty(meetings);
 
             // Get events as participant
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", users[participants.FirstOrDefault()]);
             response = await _client.GetAsync("/api/Events");
-            stringContent = await response.Content.ReadAsStringAsync();
-            meetings = JsonConvert.DeserializeObject<IEnumerable<MeetingDTO>>(stringContent);
+            meetings = await deserializeHttpResponseMessageAsync<IEnumerable<MeetingDTO>>(response);
 
             Assert.NotEmpty(meetings);
 
             // Get events as non participant
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", users[nonParticipants]);
             response = await _client.GetAsync("/api/Events");
-            stringContent = await response.Content.ReadAsStringAsync();
-            meetings = JsonConvert.DeserializeObject<IEnumerable<MeetingDTO>>(stringContent);
+            meetings = await deserializeHttpResponseMessageAsync<IEnumerable<MeetingDTO>>(response);
 
             Assert.Empty(meetings);
 
             // Get events as location manager
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", users[locationManager]);
             response = await _client.GetAsync("/api/Events");
-            stringContent = await response.Content.ReadAsStringAsync();
-            meetings = JsonConvert.DeserializeObject<IEnumerable<MeetingDTO>>(stringContent);
+            meetings = await deserializeHttpResponseMessageAsync<IEnumerable<MeetingDTO>>(response);
 
             Assert.NotEmpty(meetings);
         }
@@ -187,9 +179,14 @@ namespace CalendarApp.Tests.IntegrationTests
         {
             var request = new LoginRequestModel { Username = username, Password = "12345" };
             var response = await _client.PostAsync("/api/authenticate/login", getStringContentFromObject(request));
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var tokenResponse = JsonConvert.DeserializeObject<LoginResponseModel>(jsonResponse);
+            var tokenResponse = await deserializeHttpResponseMessageAsync<LoginResponseModel>(response);
             users[username] = tokenResponse.Token;
+        }
+
+        private async Task<T> deserializeHttpResponseMessageAsync<T>(HttpResponseMessage response)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         private StringContent getStringContentFromObject(object value)
