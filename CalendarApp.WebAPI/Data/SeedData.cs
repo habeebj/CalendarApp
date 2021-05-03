@@ -1,10 +1,5 @@
-using System.Runtime;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using CalendarApp.Data;
-using Microsoft.EntityFrameworkCore;
-using CalendarApp.Infrastructure;
-using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using CalendarApp.Domain.Entities;
 using System.Threading.Tasks;

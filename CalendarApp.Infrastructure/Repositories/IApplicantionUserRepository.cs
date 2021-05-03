@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using System.Threading.Tasks;
 using CalendarApp.Domain.Entities;
 

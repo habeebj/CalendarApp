@@ -1,9 +1,7 @@
-using System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CalendarApp.Utilities;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CalendarApp.Domain.Entities
 {

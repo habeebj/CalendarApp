@@ -1,6 +1,5 @@
 using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.Data.Repositories
 {

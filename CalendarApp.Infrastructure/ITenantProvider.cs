@@ -1,5 +1,4 @@
 using System;
-using CalendarApp.Domain.Entities;
 
 namespace CalendarApp.Infrastructure
 {

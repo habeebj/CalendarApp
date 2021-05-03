@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using CalendarApp.Applications.DTOs;
-using CalendarApp.Domain.Entities;
 
 namespace CalendarApp.Applications.ApplicationUsers
 {
