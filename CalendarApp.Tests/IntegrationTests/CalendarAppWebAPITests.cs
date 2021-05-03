@@ -1,22 +1,20 @@
-using System.Threading.Tasks.Dataflow;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using CalendarApp.WebAPI;
-using Xunit;
-using Newtonsoft.Json;
-using CalendarApp.WebAPI.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using CalendarApp.Applications.DTOs;
+using CalendarApp.WebAPI;
+using CalendarApp.WebAPI.Models;
+using Newtonsoft.Json;
+using Xunit;
 
-namespace CalendarApp.IntegrationTests
+namespace CalendarApp.Tests.IntegrationTests
 {
-
-    public class CalendarAppWebAPITests : IClassFixture<CustomWebApplicationFactory<Startup>>
+        public class CalendarAppWebAPITests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
         HttpClient _client;
@@ -203,4 +201,5 @@ namespace CalendarApp.IntegrationTests
             );
         }
     }
+
 }

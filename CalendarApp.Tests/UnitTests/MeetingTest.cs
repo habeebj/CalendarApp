@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CalendarApp.Domain.Entities;
 using NUnit.Framework;
 
-namespace CalendarApp.UnitTests
+namespace CalendarApp.Tests.UnitTests
 {
-    public class MeetingTest
+        public class MeetingTest
     {
         ApplicationUser owner;
         [SetUp]
@@ -17,14 +17,15 @@ namespace CalendarApp.UnitTests
         [Test]
         public void CreateMeeting_LongerThan8hrs_ShouldThrowException()
         {
-            Assert.Throws<Exception>(() =>
+            var date = DateTime.Now;
+            Assert.Throws<ArgumentException>(() =>
             {
                 Meeting meeting = Meeting.Create(
                     owner,
                     "Event name",
                     "Agenda",
-                    DateTime.Now,
-                    DateTime.Now.AddHours(8).AddSeconds(10),
+                    date,
+                    date.AddHours(8).AddSeconds(10),
                     new List<ApplicationUser> { owner }
                 );
             });
@@ -63,4 +64,5 @@ namespace CalendarApp.UnitTests
         }
 
     }
+
 }

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using CalendarApp.Applications.ApplicationUsers;
 using CalendarApp.Applications.DTOs;
 using CalendarApp.Applications.Locations;
 using CalendarApp.Applications.Meetings;
-using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
-namespace CalendarApp.IntegrationTests
+namespace CalendarApp.Tests.IntegrationTests
 {
-    public class MeetingTests
+    public class CalendaAppTests
     {
         IApplicationUserService _applicationUserService;
         ILocationService _locationService;

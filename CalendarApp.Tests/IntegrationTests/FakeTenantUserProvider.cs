@@ -1,11 +1,10 @@
 using System;
 using CalendarApp.Applications.DTOs;
-using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
 
-namespace CalendarApp.IntegrationTests
+namespace CalendarApp.Tests.IntegrationTests
 {
-    public class FakeTenantUserProvider : ITenantUserProvider
+        public class FakeTenantUserProvider : ITenantUserProvider
     {
         public static ApplicationUserDTO User;
         public Guid GetCompanyId()
@@ -28,4 +27,5 @@ namespace CalendarApp.IntegrationTests
             return User.Timezone;
         }
     }
+
 }

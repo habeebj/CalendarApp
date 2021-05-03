@@ -2,9 +2,9 @@ using System;
 using CalendarApp.Utilities;
 using NUnit.Framework;
 
-namespace CalendarApp.UnitTests
+namespace CalendarApp.Tests.UnitTests
 {
-    public class TimeZoneTests
+        public class TimeZoneTests
     {
         [SetUp]
         public void Setup()
@@ -116,4 +116,5 @@ namespace CalendarApp.UnitTests
             Assert.AreEqual(DateTimeOffset.Parse("2021-05-01T16:53:00+00:00"), utcDateTime);
         }
     }
+
 }

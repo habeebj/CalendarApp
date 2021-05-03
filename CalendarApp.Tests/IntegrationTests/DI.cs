@@ -1,4 +1,3 @@
-using System.IO;
 using CalendarApp.Applications.ApplicationUsers;
 using CalendarApp.Applications.Locations;
 using CalendarApp.Applications.Meetings;
@@ -9,12 +8,11 @@ using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
 using CalendarApp.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CalendarApp.IntegrationTests
+namespace CalendarApp.Tests.IntegrationTests
 {
-    public class DI
+        public class DI
     {
         public static ServiceProvider Services
         {
@@ -53,4 +51,5 @@ namespace CalendarApp.IntegrationTests
             }
         }
     }
+
 }
