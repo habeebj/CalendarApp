@@ -14,10 +14,10 @@ namespace CalendarApp.WebAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class LocationController : ControllerBase
+    public class LocationsController : ControllerBase
     {
         private readonly ILocationService _locationService;
-        public LocationController(ILocationService locationService)
+        public LocationsController(ILocationService locationService)
         {
             _locationService = locationService;
         }
