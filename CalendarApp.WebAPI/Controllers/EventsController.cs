@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarApp.Applications.DTOs;
+using CalendarApp.Applications.Exceptions;
 using CalendarApp.Applications.Meetings;
 using CalendarApp.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -41,13 +42,13 @@ namespace CalendarApp.WebAPI.Controllers
                 var _meeting = await _meetingService.AddASync(meeting.Name, meeting.Agenda, meeting.Start, meeting.End, meeting.Participants, meeting.LocationId);
                 return CreatedAtAction("Get", new { Id = _meeting.Id }, _meeting);
             }
-            catch (ArgumentNullException ex)
+            catch (EntityNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ErrorModel.Create(ex.Message));
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ErrorModel.Create(ex.Message));
             }
             catch (Exception ex)
             {

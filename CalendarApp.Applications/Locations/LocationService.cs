@@ -22,7 +22,7 @@ namespace CalendarApp.Applications.Locations
         {
             var manager = await _unitOfWork.ApplicationUser.GetByIdAsync(_tenantUserProvider.GetCurrentUserId());
             if (manager == null)
-                throw new ArgumentNullException(nameof(manager));
+                throw new EntityNotFoundException(nameof(manager));
 
             var location = Location.Create(manager, name, address);
 
@@ -51,7 +51,7 @@ namespace CalendarApp.Applications.Locations
         {
             var location = await _unitOfWork.Location.GetByIdAsync(id);
             if (location == null)
-                throw new ArgumentNullException(nameof(location));
+                throw new EntityNotFoundException(nameof(location));
             
             _unitOfWork.Location.Remove(location);
             await _unitOfWork.CompleteAsync();

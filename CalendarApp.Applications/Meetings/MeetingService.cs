@@ -8,6 +8,7 @@ using CalendarApp.Domain.Entities;
 using CalendarApp.Infrastructure;
 using CalendarApp.Utilities;
 using Microsoft.Extensions.Logging;
+using CalendarApp.Applications.Exceptions;
 
 namespace CalendarApp.Applications.Meetings
 {
@@ -23,11 +24,14 @@ namespace CalendarApp.Applications.Meetings
         {
             var owner = await _unitOfWork.ApplicationUser.GetByIdAsync(_tenantUserProvider.GetCurrentUserId());
             if (owner == null)
-                throw new ArgumentNullException(nameof(owner));
+                throw new EntityNotFoundException(nameof(owner));
 
             Location location = null;
             if (!string.IsNullOrEmpty(locationId))
                 location = await _unitOfWork.Location.GetByIdAsync(locationId);
+            
+            if(location == null)
+                throw new EntityNotFoundException(nameof(location));
 
             var participants = new List<ApplicationUser>();
             if (participantsEmail != null)
@@ -36,7 +40,7 @@ namespace CalendarApp.Applications.Meetings
                 {
                     var participant = await _unitOfWork.ApplicationUser.FindByEmailAsync(email);
                     if (participant == null || participant.CompanyId != owner.CompanyId)
-                        throw new ArgumentException($"Participant with {email} does not exist", paramName: nameof(participant));
+                        throw new ArgumentException($"Participant with `{email}` does not exist.");
 
                     participants.Add(participant);
                 }
@@ -69,7 +73,7 @@ namespace CalendarApp.Applications.Meetings
         {
             var meeting = await _unitOfWork.Meeting.GetByIdAsync(id);
             if (meeting == null)
-                throw new ArgumentNullException(nameof(meeting));
+                throw new EntityNotFoundException(nameof(meeting));
             return _modelFactory.Create(meeting);
         }
 
@@ -100,7 +104,7 @@ namespace CalendarApp.Applications.Meetings
         {
             var meeting = await _unitOfWork.Meeting.GetByIdAsync(id);
             if (meeting == null)
-                throw new ArgumentNullException(nameof(meeting));
+                throw new EntityNotFoundException(nameof(meeting));
 
             _unitOfWork.Meeting.Remove(meeting);
             await _unitOfWork.CompleteAsync();

@@ -40,7 +40,7 @@ namespace CalendarApp.WebAPI.Controllers
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(ErrorModel.Create(ex.Message));
             }
             catch (Exception ex)
             {

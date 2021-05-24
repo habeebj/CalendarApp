@@ -70,7 +70,7 @@ namespace CalendarApp.WebAPI.Controllers
                     return Ok(new LoginResponseModel { Token = jwtToken });
                 }
             }
-            return BadRequest(new { Message = "Invalid username or password", Type = "Error" });
+            return BadRequest(ErrorModel.Create("Invalid username or password"));
         }
     }
 }
